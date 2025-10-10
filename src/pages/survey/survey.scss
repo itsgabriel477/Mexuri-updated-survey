@@ -1,0 +1,223 @@
+@use "../../lib/index" as *;
+@use "sass:color";
+
+@mixin flex($direction, $justify, $align) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+.survey {
+    @include flex(column, space-between, center);
+    background: color.adjust($color: $accent-light, $lightness: 50%);
+    color: $text-dark;
+    height: max-content;
+
+    // Header Section
+    &__header {
+        text-align: center;
+        margin: 2rem 0 3rem 0;
+        max-width: 680px;
+
+        h1 {
+            font-size: $large;
+            font-weight: 400;
+            color: $primary-color;
+            margin-bottom: 0.8rem;
+        }
+
+        p {
+            font-size: $medium - 0.2rem;
+            color: rgba($text-dark, 0.7);
+            line-height: 1.6;
+            margin: 0 1rem;
+            font-weight: 350;
+        }
+    }
+
+    .survey__container {
+        position: relative;
+        width: 100%;
+        max-width: 640px;
+        margin: -6rem 0 0 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 460px;
+        perspective: 1000px;
+
+        @media screen and (max-width: 900px) {
+            max-width: 300px;
+        }
+
+        .survey__card {
+            position: absolute;
+            top: 0;
+            background: color.adjust($color: $accent-light, $lightness: 30%);
+            border-radius: 1.2rem;
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+            padding: 2.5rem 3rem;
+            width: 100%;
+            text-align: left;
+            opacity: 0;
+            pointer-events: none;
+            transform-origin: top;
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+
+            &.active {
+                opacity: 1;
+                pointer-events: auto;
+                transform: translateY(-50%) scale(1);
+                z-index: 5;
+            }
+
+            // stacking effect for inactive cards
+            &:not(.active) {
+                filter: brightness(0.96);
+            }
+
+            @for $i from 1 through 4 {
+                &:nth-child(#{$i}) {
+                    z-index: #{4 - $i};
+                    top: calc(50% + #{$i * 8}px);
+                    transform: translateY(-50%) scale(#{1 - $i * 0.05});
+                    opacity: #{1 - $i * 0};
+                }
+            }
+
+            // card logo
+            .survey__logo {
+                width: 90px;
+                margin-bottom: 1rem;
+                display: block;
+            }
+
+            label {
+                display: block;
+                font-size: 1.3rem;
+                font-weight: 400;
+                color: $text-dark;
+                margin-bottom: 1rem;
+            }
+
+            input {
+                width: 95%;
+                padding: 1rem 1.2rem;
+                font-size: 1.1rem;
+                border: 1px solid rgba(0, 0, 0, 0.1);
+                border-radius: 0.8rem;
+                outline: none;
+                transition: border 0.3s ease;
+
+                &::placeholder {
+                    color: rgba(0, 0, 0, 0.4);
+                }
+
+                &:focus {
+                    border-color: $primary-color;
+                    box-shadow: 0 0 0 3px rgba($primary-color, 0.15);
+                }
+            }
+
+            .survey__actions {
+                display: flex;
+                justify-content: flex-end;
+                align-items: center;
+                margin-top: 2rem;
+                gap: 1rem;
+
+                .back-btn,
+                .next-btn {
+                    font-size: $medium - 0.4rem;
+                    font-weight: 600;
+                    border: none;
+                    border-radius: 0.8rem;
+                    padding: 0.9rem 1.6rem;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                }
+
+                .back-btn {
+                    background: $text-light;
+                    color: $text-dark;
+
+                    &:hover {
+                        background: $text-light;
+                    }
+                }
+
+                .next-btn {
+                    background: $primary-color;
+                    color: $text-light;
+
+                    &:hover {
+                        background: darken($primary-color, 8%);
+                        transform: translateY(-2px);
+                    }
+                }
+            }
+        }
+
+        // confirmation screen
+        .survey__confirmation {
+            background: #ffffff;
+            border-radius: 1.2rem;
+            box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
+            padding: 3rem 3rem 4rem;
+            text-align: center;
+            width: 100%;
+
+            .survey__logo {
+                width: 80px;
+                margin-bottom: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.8rem;
+                margin-bottom: 0.6rem;
+                color: $primary-color;
+            }
+
+            p {
+                font-size: 1.1rem;
+                color: rgba($text-dark, 0.8);
+                margin-bottom: 2rem;
+            }
+
+            .survey__actions {
+                display: flex;
+                justify-content: center;
+                gap: 1rem;
+
+                button {
+                    font-size: $medium - 0.4rem;
+                    padding: 0.9rem 1.8rem;
+                    border: none;
+                    border-radius: 0.8rem;
+                    cursor: pointer;
+                    transition: 0.3s ease;
+                }
+
+                .back-btn {
+                    background: #f4f4f4;
+                    color: $text-dark;
+
+                    &:hover {
+                        background: #e8e8e8;
+                    }
+                }
+
+                .dashboard-btn {
+                    background: $primary-color;
+                    color: $text-light;
+
+                    &:hover {
+                        background: darken($primary-color, 8%);
+                    }
+                }
+            }
+        }
+    }
+}

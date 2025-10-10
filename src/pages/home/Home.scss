@@ -1,0 +1,621 @@
+@use "../../lib/index" as *;
+@use "sass:color";
+
+@mixin flex($direction, $justify, $align) {
+    display: flex;
+    flex-direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+@keyframes moveUpAndDown {
+    0% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-5px);
+        /* moves up */
+    }
+
+    100% {
+        transform: translateY(0);
+        /* back to start */
+    }
+}
+
+@keyframes opacity {
+    0% {
+        opacity: 0.5;
+    }
+
+    50% {
+        opacity: 0.9;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+body.fade-out {
+    opacity: 0;
+    transition: opacity 0.7s ease;
+}
+
+.main {
+    width: 100%;
+    margin: 0 auto;
+    @include flex(column, center, center);
+
+    .hero {
+        width: 100%;
+        background-color: color.adjust($color: $accent-light, $lightness: 8.5%);
+
+        .hero-class {
+            @include flex(row, space-evenly, flex-start);
+            max-height: 1000px;
+            margin: 0 auto;
+            padding: 10rem 0 3rem 0;
+            width: 100%;
+            max-width: 1600px;
+
+            @media screen and (max-width: 900px) {
+                @include flex(column, center, flex-start);
+                max-height: max-content;
+                padding: 4rem 0;
+                width: 97%;
+            }
+
+            @media screen and (min-width: 901px) and (max-width: 1200px) {
+                @include flex(column, center, center);
+                border: 1px solid;
+            }
+
+            .hero-text {
+                width: 650px;
+
+                @media screen and (min-width: 901px) and (max-width: 1200px) {
+                    width: 97%;
+                }
+
+                @media screen and (max-width: 900px) {
+                    width: 100%;
+                }
+
+                h1 {
+                    font-size: $xlarge + 0.6rem;
+                    text-transform: capitalize;
+                    font-weight: 345;
+                    color: $primary-color;
+
+                    @media screen and (max-width: 900px) {
+                        font-size: $large + 0.5rem;
+                    }
+                }
+
+                p {
+                    font-size: $medium - 0.2rem;
+                    font-weight: 300;
+                    margin: 0.5rem 0;
+                }
+
+                #main-text {
+                    font-weight: 700;
+                    background: $primary-color;
+                    padding: 0.2rem 0.4rem;
+                    color: color.adjust($color: $accent-light, $lightness: 8%);
+                    margin: 1rem 0 1.5rem 0;
+                    width: max-content
+                }
+
+                .cta-section {
+                    @include flex(row, space-between, center);
+                    padding: 0.8rem 1rem;
+                    border-radius: 5rem;
+                    background: color.adjust($color: $accent-light, $lightness: 80%);
+                    box-shadow: 0 0 7px rgba($primary-color, 0.4);
+
+                    form {
+                        @include flex(row, space-between, center);
+                        width: 100%;
+
+                        .input {
+                            width: 450px;
+                            padding: 0.1rem 0.5rem;
+
+                            input {
+                                background: none;
+                                border: none;
+                                outline: none;
+                                width: 100%;
+                                font-weight: 400;
+                                font-size: $medium - 0.2rem;
+                                color: $primary-color;
+
+
+                                @media screen and (max-width: 450px) {
+                                    font-size: $small;
+
+                                    &::placeholder {
+                                        font-size: $small + 0.05rem;
+                                    }
+                                }
+
+                                &::placeholder {
+                                    font-size: $medium - 0.2rem;
+                                }
+                            }
+                        }
+
+                        .button {
+                            width: 230px;
+
+                            @media screen and (max-width: 900px) {
+                                width: 270px;
+                            }
+
+                            @media screen and (max-width: 450px) {
+                                width: 300px;
+                            }
+
+                            button {
+                                width: 100%;
+                                padding: 1rem 1.5rem;
+                                border-radius: 3rem;
+                                outline: none;
+                                border: none;
+                                color: color.adjust($color: $accent-light, $lightness: 80%);
+                                background-color: $primary-color;
+                                font-weight: 400;
+                                font-size: $medium - 0.2rem;
+                                transition: all 0.2s ease-in-out;
+
+                                @media screen and (max-width: 450px) {
+                                    font-size: $small + 0.05rem;
+                                }
+
+                                &:hover {
+                                    box-shadow: 0 0 10px rgba($primary-color, 0.6);
+                                    transform: scale(1.01);
+                                }
+
+                                &:active {
+                                    box-shadow: 0 0 5px rgba($primary-color, 0.6);
+                                    transform: scale(0.97);
+                                }
+
+                                @media screen and (max-width: 900px) {
+                                    padding: 0.8rem 0.7rem;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .buttons {
+                    @include flex(row, left, center);
+                    padding: 1.5rem 2rem 3.4rem 0;
+                    max-width: 1600px;
+                    margin: 3rem auto 0 auto;
+
+                    @media screen and (max-width: 900px) {
+                        margin: 0.4rem 0 0 0;
+                    }
+
+                    button {
+                        padding: 0.9rem 1.4rem;
+                        font-size: $medium - 0.2rem;
+                        border: none;
+                        border-radius: 9rem;
+                        @include flex(row, center, center);
+                        background: $secondary-color;
+                        color: color.adjust($color: $primary-color, $lightness: -10%);
+                        font-weight: 500;
+                        transition: 0.2s ease-in-out;
+
+                        svg {
+                            margin: 0 0 0 0.2rem;
+                            transition: 0.2s ease-in-out;
+                            fill: color.adjust($color: $primary-color, $lightness: -10%);
+                        }
+
+                        &:hover {
+                            transform: scale(1.01);
+                        }
+
+                        &:active {
+                            transform: scale(0.97);
+                        }
+                    }
+                }
+            }
+
+            .hero-image {
+                @media screen and (max-width: 900px) {
+                    width: 100%;
+                    @include flex(column, center, center);
+                }
+
+                @media screen and (min-width: 901px) and (max-width: 1200px) {
+                    width: 100%;
+                    margin: 4rem 0 0 0;
+                    @include flex(column, center, center);
+                }
+
+                .image {
+                    box-shadow: 30px -30px 1px $secondary-color;
+                    width: 650px;
+                    border-radius: 1rem;
+                    height: 525px;
+
+                    @media screen and (max-width: 900px) {
+                        margin: 2rem 0 1rem 0;
+                        width: 97%;
+                        box-shadow: none;
+                        height: auto;
+                    }
+
+                    @media screen and (min-width: 901px) and (max-width: 1200px) {
+                        width: 90%;
+                        margin: 1rem 0;
+                    }
+
+                    img {
+                        width: 100%;
+                        height: 100%;
+                        border-radius: 1rem;
+                        object-fit: cover;
+                        animation: moveUpAndDown 2s ease-in-out infinite;
+                    }
+                }
+
+                .testimonials {
+                    @include flex(row, space-between, center);
+                    width: 90%;
+                    margin: 0 auto;
+                    color: $primary-color;
+
+                    @media screen and (max-width: 900px) {
+                        width: 100%;
+
+                        .box {
+                            h1 {
+                                font-size: $medium;
+                            }
+
+                            p {
+                                font-size: $medium - 0.6rem;
+                            }
+                        }
+                    }
+
+                    .box {
+                        @include flex(column, center, center);
+                        text-align: center;
+
+                        h1 {
+                            font-weight: 600;
+                        }
+
+                        p {
+                            font-weight: 500;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .pain-point {
+        @include flex(column, center, center);
+        width: 100%;
+        background-color: $secondary-color;
+        padding: 2rem 0 4rem 0;
+
+        .section {
+            width: 100%;
+            @include flex(column, center, center);
+            margin: 0 auto;
+
+            .heading {
+                width: 95%;
+                @include flex(row, space-between, flex-end);
+                margin: 2rem 0 0 0;
+                max-width: 1600px;
+
+                @media screen and (max-width: 900px) {
+                    @include flex(column-reverse, center, flex-start);
+                    margin: 0.3rem 0 0 0;
+                    width: 98%;
+                }
+
+                p {
+                    font-size: $medium - 0.2rem;
+                    color: color.adjust($color: $text-dark, $lightness: 3%);
+                    font-weight: 300;
+                }
+
+                h1 {
+                    text-transform: capitalize;
+                    font-size: $xlarge + 0.6rem;
+                    text-align: right;
+                    font-weight: 345;
+                    color: color.adjust($color: $primary-color, $lightness: -10%);
+
+                    @media screen and (max-width: 900px) {
+                        font-size: $large;
+                        text-align: left;
+                        font-size: $large + 0.5rem;
+                    }
+                }
+            }
+
+            .services {
+                width: 98%;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(465px, 1fr));
+                gap: 0.5rem;
+                align-items: flex-start;
+                max-width: 1600px;
+                margin: 0 auto;
+
+                @media screen and (max-width: 900px) {
+                    grid-template-columns: repeat(auto-fill, minmax(305px, 1fr));
+                }
+
+                @media screen and (min-width: 901px) and (max-width: 1200px) {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+
+                figure {
+                    width: 100%;
+                    @include flex(column, center, flex-start);
+                    margin: 2rem auto;
+
+                    @media screen and (min-width: 901px) and (max-width: 1200px) {
+                        overflow: hidden;
+                        display: flex;
+                        flex-direction: column;
+
+                        &:nth-child(3) {
+                            grid-column: 1 / -1;
+                        }
+                    }
+
+                    .img {
+                        overflow: hidden;
+                        height: 400px;
+                        width: 100%;
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            transition: all 0.3s ease-in-out;
+
+                            &:hover {
+                                transform: scale(1.1);
+                            }
+                        }
+                    }
+
+                    figcaption {
+                        width: 100%;
+
+                        h1 {
+                            font-weight: 345;
+                        }
+
+                        p {
+                            font-size: $medium - 0.2rem;
+                            font-weight: 300;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .dare {
+        width: 100%;
+        @include flex(column, center, center);
+        background-color: $text-dark;
+
+        .dare-main {
+            @include flex(column-reverse, center, center);
+            width: 100%;
+            color: $text-light;
+            max-width: 1600px;
+
+            .writeUp {
+                margin: 0 3rem 0 0;
+                width: 100%;
+                text-align: center;
+
+                @media screen and (max-width: 900px) {
+                    margin: 0;
+                }
+
+                h1 {
+                    font-size: $xlarge + 0.6rem;
+                    margin: 2rem 0 1rem 0;
+                    font-weight: 345;
+
+                    @media screen and (max-width: 900px) {
+                        font-size: $large + 0.5rem;
+                    }
+                }
+
+                p {
+                    font-size: $medium - 0.2rem;
+                    font-weight: 300;
+                }
+            }
+
+            .image {
+                width: 90%;
+                height: 525px;
+                margin: 3rem auto 0 auto;
+
+                @media screen and (max-width: 900px) {
+                    height: 325px;
+                    width: 100%;
+                }
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    border-top-left-radius: 3rem;
+                    border-top-right-radius: 3rem;
+                    object-fit: cover;
+
+                    @media screen and (max-width: 900px) {
+                        border-top-left-radius: 1rem;
+                        border-top-right-radius: 1rem;
+                    }
+                }
+            }
+        }
+    }
+
+    .portfolio {
+        width: 100%;
+        background-color: color.adjust($color: $primary-color, $lightness: 35%);
+        padding: 2rem 0 0 0;
+
+        .portfolio-main {
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+            @include flex(column, center, center);
+
+            .heading {
+                width: 98%;
+                @include flex(column, left, flex-start);
+
+                h1 {
+                    font-weight: 345;
+                    margin: 1rem 0;
+                    text-transform: uppercase;
+                    font-size: $xlarge + 0.6rem;
+                    color: color.adjust($color: $primary-color, $lightness: -20%);
+
+                    @media screen and (max-width: 900px) {
+                        font-size: $large;
+                    }
+                }
+            }
+
+            .portfolio-list {
+                width: 98%;
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(465px, 1fr));
+                gap: 0.5rem;
+                align-items: flex-start;
+
+                @media screen and (max-width: 900px) {
+                    grid-template-columns: repeat(auto-fill, minmax(305px, 1fr));
+                }
+
+                figure {
+                    width: 100%;
+                    @include flex(column, center, flex-start);
+                    position: relative;
+
+                    &:hover,
+                    :active {
+                        figcaption {
+                            z-index: 10;
+                            animation: opacity 0.3s ease-in-out;
+                        }
+
+                        .image {
+                            img {
+                                transform: scale(1.05);
+                            }
+                        }
+                    }
+
+                    .image {
+                        width: 100%;
+                        height: 424px;
+                        overflow: hidden;
+
+                        @media screen and (max-width: 900px) {
+                            height: 300px;
+                        }
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                            transition: all 0.3s ease-in-out;
+
+                            &:hover {
+                                box-shadow: 4px 3px 25px $primary-color;
+                            }
+                        }
+                    }
+
+                    figcaption {
+                        width: 100%;
+                        z-index: -1;
+                        height: auto;
+                        position: absolute;
+                        left: 0;
+                        bottom: 0;
+                        top: 0;
+                        transition: all 0.1s ease-in-out;
+                        @include flex(row, center, center);
+                        background-color: rgba($primary-color, 0.8);
+
+                        h1 {
+                            text-align: center;
+                            color: $accent-light;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+
+    .quote {
+        width: 100%;
+        padding: 4rem 0;
+        background-color: $accent-light;
+
+        .quote-main {
+            @include flex(column, center, center);
+            text-align: center;
+            color: color.adjust($color: $primary-color, $lightness: -8.5%);
+            max-width: 1600px;
+            margin: 0 auto;
+
+            h1 {
+                font-family: "Raleway", sans-serif;
+                font-optical-sizing: auto;
+                font-weight: 200;
+                font-style: italic;
+                font-size: $xxlarge;
+
+                @media screen and (max-width: 900px) {
+                    font-size: $large;
+                }
+            }
+
+            p {
+                font-size: $xlarge;
+                font-family: "Raleway", sans-serif;
+                font-optical-sizing: auto;
+                font-weight: 300;
+                margin: 2rem auto 0 auto;
+
+                @media screen and (max-width: 900px) {
+                    font-size: $medium;
+                }
+            }
+        }
+    }
+}

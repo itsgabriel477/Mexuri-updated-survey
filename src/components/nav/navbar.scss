@@ -1,0 +1,234 @@
+@use "../../lib/index" as *;
+
+@use "sass:color";
+
+@mixin flex($direction, $justify, $align) {
+    display: flex;
+    direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+.navbar {
+    width: 100%;
+    @include flex(row, center, center);
+    background-color: color.adjust($color: $accent-light, $lightness: 8.5%);
+    position: fixed;
+    left: 0;
+    z-index: 1000;
+    box-shadow: 0 0.01rem 0.3rem rgba($primary-color, 0.3);
+
+    @media screen and (max-width: 900px) {
+        display: none;
+    }
+
+    nav {
+        @include flex(row, space-between, center);
+        width: 95%;
+        max-width: 1600px;
+        padding: 1rem 1rem;
+
+        .logo {
+            width: 6rem;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        .navlinks {
+            @include flex(row, space-between, center);
+            padding: 0 2rem;
+
+            ul {
+                @include flex(row, space-between, center);
+
+                li {
+                    a {
+                        text-decoration: none;
+                        color: color.adjust($color: $primary-color, $lightness: -10%);
+                        font-weight: 300;
+                    }
+
+                    list-style: none;
+                    color: color.adjust($color: $primary-color, $lightness: -10%);
+                    margin: 0 2rem;
+                    font-size: $medium - 0.4rem;
+                    position: relative;
+                    cursor: pointer;
+                    font-weight: 300;
+                    transition: transform 0.3s ease-out;
+
+                    &:hover {
+                        transform: translateY(-10%);
+                        font-weight: 400;
+                    }
+
+                    &::before,
+                    &::after {
+                        content: "";
+                        position: absolute;
+                        bottom: -5px;
+                        left: 0;
+                        width: 0%;
+                        height: 2px;
+                        background-color: $primary-color;
+                        transition: width 0.3s ease;
+                    }
+
+                    &::after {
+                        right: 0;
+                        left: auto;
+                    }
+
+                    &:hover::before,
+                    &:hover::after {
+                        width: 100%;
+                    }
+                }
+
+            }
+        }
+
+        .button {
+            margin: 0 2rem;
+
+            button {
+                padding: 0.7rem 1.3rem;
+                border: none;
+                border-radius: 1.5rem;
+                background-color: color.adjust($color: $primary-color, $lightness: -1%);
+                color: $text-light;
+                font-size: $medium - 0.4rem;
+                transition: 0.3s ease-in-out;
+
+                &:hover {
+                    transform: translateY(-10%);
+                }
+            }
+        }
+    }
+}
+
+.mobile-navbar {
+    background-color: color.adjust($color: $accent-light, $lightness: 8.5%);
+    width: 100%;
+    @include flex(column, center, flex-start);
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+    padding: 0.7rem 0.2rem;
+
+    @media screen and (min-width: 900px) {
+        display: none;
+    }
+
+    .navbar-mobile {
+        width: 100%;
+        @include flex(column, center, center);
+
+        .logo-menu {
+            @include flex(row, space-between, center);
+            width: 99%;
+
+            .logo {
+                width: 6rem;
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            .menu {
+                padding: 0 0.5rem 0 0;
+
+                svg {
+                    width: 2rem;
+                    height: 2rem;
+                }
+            }
+        }
+    }
+}
+
+.mobile-navlinks {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 70%;
+    height: 100vh;
+    background-color: color.adjust($color: $accent-light, $lightness: 8.5%);
+    box-shadow: -2px 0 10px rgba($primary-color, 0.1);
+    transform: translateX(100%);
+    transition: transform 0.4s ease;
+    z-index: 999;
+    padding: 2rem;
+
+    @media screen and (min-width: 900px) {
+        display: none;
+    }
+
+    &.active {
+        transform: translateX(0);
+    }
+
+    .button {
+        width: 100%;
+        @include flex(row, center, center);
+        margin: 1rem auto;
+
+        button {
+            padding: 0.7rem 0.9rem;
+            width: 100%;
+            border: none;
+            border-radius: 0.3rem;
+            font-size: $medium - 0.2rem;
+            background-color: $primary-color;
+            color: $accent-light;
+        }
+    }
+
+    .closeBtn {
+        display: flex;
+        justify-content: flex-end;
+        cursor: pointer;
+
+        svg {
+            width: 28px;
+            height: 28px;
+            transition: transform 0.3s ease;
+
+            &:hover {
+                transform: rotate(90deg);
+            }
+        }
+    }
+
+    ul {
+        list-style: none;
+        margin-top: 3rem;
+        padding: 0;
+
+        li {
+            margin: 1.5rem 0;
+            font-size: $medium - 0.2rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: color 0.3s ease;
+
+            a {
+                color: #000;
+                text-decoration: none;
+
+                &:hover {
+                    color: #007bff; // accent color
+                }
+            }
+
+            &:hover {
+                color: #007bff;
+            }
+        }
+    }
+}

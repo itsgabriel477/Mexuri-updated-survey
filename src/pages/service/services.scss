@@ -1,0 +1,133 @@
+@use "../../lib/index" as *;
+@use "sass:color";
+
+@mixin flex($direction, $justify, $align) {
+    display: flex;
+    direction: $direction;
+    justify-content: $justify;
+    align-items: $align;
+}
+
+.service {
+    width: 100%;
+    display: block;
+    margin: 0 auto 0.2rem auto;
+    padding: 2rem 0 0 0;
+    background-color: color.adjust($color: $accent-light, $lightness: 8.5%);
+
+    .service-main {
+        width: 100%;
+        max-width: 1600px;
+        margin: 0 auto;
+
+        .header {
+            width: 100%;
+
+            .text {
+                margin: 0;
+
+                h1 {
+                    font-size: $xxlarge - 0.5rem;
+                    font-weight: 354;
+                    text-transform: uppercase;
+
+                    @media screen and (max-width: 450px) {
+                        font-size: $large;
+                        text-transform: uppercase;
+                        width: 370px;
+                    }
+
+                    @media screen and (min-width: 400px) and (max-width: 900px) {
+                        width: 90%;
+                    }
+                }
+
+                p {
+                    font-size: $medium;
+                    font-weight: 311;
+                }
+            }
+        }
+
+        .figure {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+            gap: 0.2rem;
+            align-items: flex-start;
+            margin: 0 auto;
+            justify-content: center;
+
+            @media screen and (max-width: 900px) {
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            }
+
+            @media screen and (min-width: 1000px) {
+                grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
+            }
+
+            .image {
+                width: 100%;
+                height: 600px;
+                overflow: hidden;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: all 0.2s ease-in-out;
+
+                    &:hover {
+                        transform: scale(1.1);
+                    }
+                }
+            }
+        }
+
+        .picture {
+            width: 100%;
+
+            .artwork {
+                position: relative;
+                z-index: 10;
+                height: 595px;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .text {
+                position: absolute;
+                width: 100%;
+                padding: 3rem 0;
+                left: 0;
+                bottom: -2.4%;
+                z-index: 100;
+                background: rgba($text-dark, 0.8);
+
+                h1 {
+                    color: $accent-light;
+                    font-family: "Raleway", sans-serif;
+                    font-optical-sizing: auto;
+                    font-weight: 300;
+                    font-style: italic;
+                    padding: 1rem;
+                    font-size: $xlarge;
+                }
+
+                p {
+                    color: $accent-light;
+                    font-size: $large;
+                    padding: 0 1rem;
+
+                    &::before {
+                        content: "- ";
+                    }
+                }
+            }
+        }
+    }
+}

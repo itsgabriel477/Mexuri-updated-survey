@@ -1,0 +1,125 @@
+* {
+  font-family: "Red Hat Display", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+  font-variation-settings: "wdth" 100, "YTLC" 500;
+  margin: 0;
+  padding: 0;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+
+.service {
+  width: 100%;
+  display: block;
+  margin: 0 auto 0.2rem auto;
+  padding: 2rem 0 0 0;
+  background-color: rgb(254.335, 254.335, 249.015);
+}
+.service .service-main {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.service .service-main .header {
+  width: 100%;
+}
+.service .service-main .header .text {
+  margin: 0;
+}
+.service .service-main .header .text h1 {
+  font-size: 3.5rem;
+  font-weight: 354;
+  text-transform: uppercase;
+}
+@media screen and (max-width: 450px) {
+  .service .service-main .header .text h1 {
+    font-size: 2rem;
+    text-transform: uppercase;
+    width: 370px;
+  }
+}
+@media screen and (min-width: 400px) and (max-width: 900px) {
+  .service .service-main .header .text h1 {
+    width: 90%;
+  }
+}
+.service .service-main .header .text p {
+  font-size: 1.5rem;
+  font-weight: 311;
+}
+.service .service-main .figure {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(205px, 1fr));
+  gap: 0.2rem;
+  align-items: flex-start;
+  margin: 0 auto;
+  justify-content: center;
+}
+@media screen and (max-width: 900px) {
+  .service .service-main .figure {
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  }
+}
+@media screen and (min-width: 1000px) {
+  .service .service-main .figure {
+    grid-template-columns: repeat(auto-fill, minmax(375px, 1fr));
+  }
+}
+.service .service-main .figure .image {
+  width: 100%;
+  height: 600px;
+  overflow: hidden;
+}
+.service .service-main .figure .image img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: all 0.2s ease-in-out;
+}
+.service .service-main .figure .image img:hover {
+  transform: scale(1.1);
+}
+.service .service-main .picture {
+  width: 100%;
+}
+.service .service-main .picture .artwork {
+  position: relative;
+  z-index: 10;
+  height: 595px;
+}
+.service .service-main .picture .artwork img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.service .service-main .picture .text {
+  position: absolute;
+  width: 100%;
+  padding: 3rem 0;
+  left: 0;
+  bottom: -2.4%;
+  z-index: 100;
+  background: rgba(12, 12, 12, 0.8);
+}
+.service .service-main .picture .text h1 {
+  color: #fafad2;
+  font-family: "Raleway", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 300;
+  font-style: italic;
+  padding: 1rem;
+  font-size: 3rem;
+}
+.service .service-main .picture .text p {
+  color: #fafad2;
+  font-size: 2rem;
+  padding: 0 1rem;
+}
+.service .service-main .picture .text p::before {
+  content: "- ";
+}/*# sourceMappingURL=services.css.map */

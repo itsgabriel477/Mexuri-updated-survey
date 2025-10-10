@@ -1,0 +1,30 @@
+//Color Variables
+$primary-color: #483c32;
+$secondary-color: #d4af37;
+$accent-light: #fafad2;
+$text-dark: #0c0c0c;
+$text-light: #ffffff;
+
+//Text Variables
+
+$small: 1rem;
+$medium: 1.5rem;
+$large: 2rem;
+$xlarge: 3rem;
+$xxlarge: 4rem;
+
+//Font styles
+
+* {
+    font-family: "Red Hat Display", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    font-variation-settings:
+        "wdth" 100,
+        "YTLC" 500;
+    margin: 0;
+    padding: 0;
+    scrollbar-width: none;
+    scroll-behavior: smooth;
+}
