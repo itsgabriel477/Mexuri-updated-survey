@@ -1,12 +1,6 @@
-/**
- * SurveyForm.jsx
- * ----------------
- * New version with EmailJS integration + environment variables
- */
-
+// src/components/SurveyForm.jsx
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import emailjs from "@emailjs/browser";
 import { useFormData } from "../../FormContext";
 import "./survey.css";
 
@@ -14,31 +8,11 @@ const logo =
   "https://res.cloudinary.com/dbrjr5zqp/image/upload/v1759347257/Primary_Light_oeo21s.svg";
 
 const steps = [
-  {
-    label: "Describe your product or service.",
-    placeholder: "What do you do?",
-    name: "brandService",
-  },
-  {
-    label: "Target Audience",
-    placeholder: "Who are your target audience?",
-    name: "targetAudience",
-  },
-  {
-    label: "What’s the story behind your business?",
-    placeholder: "What inspired you to begin this journey?",
-    name: "businessWhy",
-  },
-  {
-    label: "How should customers see your brand?",
-    placeholder: "e.g. expensive, playful, etc",
-    name: "customerImpression",
-  },
-  {
-    label: "How can we contact you?",
-    placeholder: "Add Email/WhatsApp Phone Number",
-    name: "contact",
-  },
+  { label: "Describe your product or service.", placeholder: "What do you do?", name: "brandService" },
+  { label: "Target Audience", placeholder: "Who are your target audience?", name: "targetAudience" },
+  { label: "What’s the story behind your business?", placeholder: "What inspired you to begin this journey?", name: "businessWhy" },
+  { label: "How should customers see your brand?", placeholder: "e.g. expensive, playful, etc", name: "customerImpression" },
+  { label: "How can we contact you?", placeholder: "Add Email/WhatsApp Phone Number", name: "contact" },
 ];
 
 const SurveyForm = () => {
@@ -56,58 +30,63 @@ const SurveyForm = () => {
   const [serverError, setServerError] = useState(null);
 
   const handleChange = (e) => {
-    setForm({ ...form, [steps[step].name]: e.target.value });
+    setForm(prev => ({ ...prev, [steps[step].name]: e.target.value }));
   };
 
   const handleNext = async () => {
+    // simple validation example: require brandService on final submit
     if (step < steps.length - 1) {
       setStep(step + 1);
       return;
     }
 
-    // Final step → send email
     setLoading(true);
     setServerError(null);
 
-    const templateParams = {
-      brand_name: brandName || "N/A",
-      brand_service: form.brandService || "N/A",
-      target_audience: form.targetAudience || "N/A",
-      business_why: form.businessWhy || "N/A",
-      customer_impression: form.customerImpression || "N/A",
-      contact: form.contact || "N/A",
-      submitted_at: new Date().toLocaleString(),
+    const payload = {
+      brand_name: brandName || null,
+      brand_service: form.brandService || null,
+      target_audience: form.targetAudience || null,
+      business_why: form.businessWhy || null,
+      customer_impression: form.customerImpression || null,
+      contact: form.contact || null,
+      submitted_at: new Date().toISOString()
     };
 
     try {
-      const res = await emailjs.send(
-                import.meta.env.VITE_EMAILJS_SERVICE_ID,
-                import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-                templateParams,
-                import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-              );
-      console.log("✅ Email sent:", res.status, res.text);
+      const res = await fetch("/api/surveys", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        // try to parse error message from server
+        let text = await res.text();
+        try { text = JSON.parse(text).error || JSON.stringify(JSON.parse(text)); } catch (e) {}
+        throw new Error(text || `Server responded ${res.status}`);
+      }
+
+      const json = await res.json();
+      // server inserted -> success
       setDone(true);
+      setLoading(false);
+
     } catch (err) {
-      console.error("❌ EmailJS Error:", err);
-      setServerError("Failed to send survey. Please try again later.");
-    } finally {
+      console.error("Submit error", err);
+      // show friendly message while preserving underlying message in console
+      setServerError(typeof err === "string" ? err : (err.message || "Failed to send survey. Please try again later."));
       setLoading(false);
     }
   };
 
-  const handleBack = () => {
-    if (step > 0) setStep(step - 1);
-  };
+  const handleBack = () => { if (step > 0) setStep(step - 1); };
 
   return (
     <div className="survey">
       <header className="survey__header">
-        <h1>Hello, {brandName}</h1>
-        <p>
-          We would love to know more about your brand. Kindly fill this short
-          form so we can get to work!
-        </p>
+        <h1>Hello, {brandName || "friend"}</h1>
+        <p>We would love to know more about your brand. Kindly fill this short form so we can get to work!</p>
       </header>
 
       <div className="survey__container">
@@ -124,12 +103,8 @@ const SurveyForm = () => {
           </div>
         ) : (
           <>
-            {serverError && (
-              <div className="server-error" style={{ color: "red" }}>
-                {serverError}
-              </div>
-            )}
-            {loading && <div className="loading">Sending...</div>}
+            {serverError && <div className="server-error" style={{ color: "red", marginBottom: 12 }}>{serverError}</div>}
+            {loading && <div className="loading" style={{ marginBottom: 12 }}>Sending...</div>}
 
             {steps.map((stepObj, i) => {
               if (i < step) return null;
@@ -158,22 +133,14 @@ const SurveyForm = () => {
                   />
                   {isActive && (
                     <div className="survey__actions">
-                      {step > 0 && (
-                        <button onClick={handleBack} className="back-btn">
-                          Back
-                        </button>
-                      )}
+                      {step > 0 && <button onClick={handleBack} className="back-btn">Back</button>}
                       <button
                         type="button"
                         onClick={handleNext}
                         className="next-btn"
                         disabled={loading}
                       >
-                        {loading
-                          ? "Sending..."
-                          : step === steps.length - 1
-                          ? "Finish"
-                          : "Next"}
+                        {loading ? "Sending..." : (step === steps.length - 1 ? "Finish" : "Next")}
                       </button>
                     </div>
                   )}

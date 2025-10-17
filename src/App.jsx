@@ -5,6 +5,7 @@ import Home from "./pages/home/home";
 import ScrollToTop from "./scrollToTop";
 import { FormProvider } from "./FormContext";
 import SurveyForm from "./pages/survey/survey";
+import AdminPage from "./pages/AdminSurvey/AdminSurveys";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/portfolio" element={<Service />} />
             <Route path="/survey" element={<SurveyForm />} />
+            <Route path="/admin" element={<AdminPage />} />
           </Routes>
           <Footer />
         </Router>
