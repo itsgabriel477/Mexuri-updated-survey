@@ -54,7 +54,7 @@ const SurveyForm = () => {
     };
 
     try {
-      const res = await fetch("/api/surveys", {
+      const res = await fetch("https://api-backend.mexuri.com.ng/api/surveys", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

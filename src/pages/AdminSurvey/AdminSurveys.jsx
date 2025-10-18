@@ -57,7 +57,7 @@ export default function AdminPage() {
     setError(null);
     try {
       const qs = new URLSearchParams({ page, limit, search });
-      const res = await fetch(`/api/admin/surveys?${qs.toString()}`, {
+      const res = await fetch(`https://api-backend.mexuri.com.ng/api/admin/surveys?${qs.toString()}`, {
         headers: { Authorization: `Basic ${auth.token}`, Accept: 'application/json' },
       });
       if (res.status === 401) { clearAuth(); setError('Unauthorized — sign in again'); return; }
@@ -75,7 +75,7 @@ export default function AdminPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/admin/surveys/${id}`, {
+      const res = await fetch(`https://api-backend.mexuri.com.ng/api/admin/surveys/${id}`, {
         headers: { Authorization: `Basic ${auth.token}`, Accept: 'application/json' },
       });
       if (res.status === 401) { clearAuth(); setError('Unauthorized — sign in again'); return; }
@@ -92,7 +92,7 @@ export default function AdminPage() {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/admin/surveys/${id}`, {
+      const res = await fetch(`https://api-backend.mexuri.com.ng/api/admin/surveys/${id}`, {
         method: 'DELETE',
         headers: { Authorization: `Basic ${auth.token}`, Accept: 'application/json' },
       });
